@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<head>
+    <title></title>
+</head>
+<body>
+    <form onsubmit=save(event)>
+    <label for="expence">Expence</label>
+    <input type="number" id="expence" name="expence" required>
+    <label for="description">Description</label>
+    <input type="text" id="description" name="description" required>
+    <label for="category">Category</label>
+    <select name="cat" id="category" name="category">
+        <option value="food">Food</option>
+        <option value="movie">Movie</option>
+        <option value="travel">Travel</option>
+    </select>
+    <button>submit</button>
+</form>
+<ol id="listofuser"></ol>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+<script>
+    function save(event)
+    {
+        event.preventDefault();
+        let expence=event.target.expence.value;
+        let description=event.target.description.value;
+        let category=event.target.category.value;
+
+        const obj={
+            expence,
+            description,
+            category
+        }
+        
+        async function  postDetails()
+        {
+            try{
+                const res = await axios.post('http://localhost:3000/save',obj)
+                showUsers(res.data.newUserDetails)
+                }
+            catch(e)
+            {
+            console.log('somthing went wrong')
+            }
+        
+        }
+        postDetails()
+        }
+    window.addEventListener('DOMContentLoaded',()=>{
+
+        async function getDetails()
+        {   
+            try{
+            let res= await axios.get('http://localhost:3000/')  
+            for(let i=0; i<res.data.newUserDetails.length; i++)
+            {
+                showUsers(res.data.newUserDetails[i]);
+            }
+            }
+            catch(e)
+            {
+            console.log(e+'somthing went wrong')
+            }
+        }
+        getDetails()
+    })
+
+
+    
+    function showUsers(users)
+    {
+        document.getElementById('expence').value='';
+        document.getElementById('description').value='';
+        document.getElementById('category').value='';
+        
+            let pareNode = document.getElementById('listofuser');
+            let li =`<li id=${users.id}>${users.expence} - ${users.description} - ${users.category}
+            <button onclick=edit('${users.expence}','${users.description}','${users.category}','${users.id}')>Edit</button>    
+            <button onclick=deleteU('${users.id}')>Delete</button>    
+            </li>`
+
+            pareNode.innerHTML=pareNode.innerHTML+li;   
+    }
+
+
+
+    function edit(expenceU,descriptionU,categoryU,userID)
+    {
+        document.getElementById('expence').value=expenceU;
+        document.getElementById('description').value=descriptionU;
+        document.getElementById('category').value=categoryU;
+
+        deleteU(userID)
+
+    }
+
+
+    function deleteU(delID)
+    {
+        async function userDelete()
+        {
+            try{
+            const res =await axios.delete(`http://localhost:3000/${delID}`)
+            }
+            catch (e)
+            {
+                console.log(e+'somthing went wrong')
+            }
+        }
+        userDelete()
+        removeFromScreen(delID)
+        
+    }
+
+
+    function removeFromScreen(delID)
+    {
+
+        let pareNode =document.getElementById('listofuser')
+        let li =document.getElementById(delID)
+        if(delID)
+        {
+            pareNode.removeChild(li)
+        }
+    }
+
+</script>
+</body>
+</html>
