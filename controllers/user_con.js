@@ -1,21 +1,21 @@
 const User = require("../model/user_model");
 
-exports.signUp = (req, res, next) => {
-  const { name, email, password } = req.body;
-  // const name = req.body.name;
-  // const email = req.body.email;
-  // const password = req.body.password;
-  User.findOne({ where: { email: email } }).then((result) => {
-    if (result.length == 0) {
-      User.create({
+exports.signUp = async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+    const result = await User.findAll({ where: { email: email } });
+
+    if (result.length > 0) {
+      return res.status(400).json({ msg: "User already exists" });
+    } else {
+      await User.create({
         name,
         email,
         password,
-      }).then(() => {
-        res.status(200).json({ msg: "successfully registered" });
       });
-    } else {
-      return res.status(400).json({ msg: "User already exists" });
+      res.status(200).json({ msg: "successfully registered" });
     }
-  });
+  } catch (err) {
+    console.log(err);
+  }
 };
