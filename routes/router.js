@@ -14,6 +14,7 @@ router.get("/", mainController.showDeails);
 
 router.delete("/:id", mainController.deleteDeails);
 
+//router.get("/:email", signUpcontroller.getEmail);
 router.post("/signUp", signUpcontroller.signUp);
 
 module.exports = router;

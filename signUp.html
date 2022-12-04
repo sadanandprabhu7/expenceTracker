@@ -7,34 +7,18 @@
     <title>Sign Up</title>
   </head>
   <body>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"
-      defer
-    ></script>
-    <script src="signUp.js" defer></script>
-    <form id="form">
-      <input
-        id="name"
-        type="text"
-        name="name"
-        placeholder="Your Name"
-        required
-      />
-      <input
-        id="email"
-        type="text"
-        name="email"
-        placeholder="Your Email"
-        required
-      />
+    <form onsubmit="resgister(event)" id="form">
+      <input id="name" type="text" name="name" placeholder="Your Name" />
+      <input id="email" type="text" name="email" placeholder="Your Email" />
       <input
         id="password"
         type="password"
         name="password"
         placeholder="Your Password"
-        required
       />
       <button id="signUpBtn">submit</button>
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+    <script src="signUp.js"></script>
   </body>
 </html>
