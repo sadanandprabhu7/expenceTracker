@@ -5,7 +5,7 @@ exports.signUp = (req, res, next) => {
   // const name = req.body.name;
   // const email = req.body.email;
   // const password = req.body.password;
-  User.findAll({ where: { email: email } }).then((result) => {
+  User.findOne({ where: { email: email } }).then((result) => {
     if (result.length == 0) {
       User.create({
         name,
@@ -15,7 +15,7 @@ exports.signUp = (req, res, next) => {
         res.status(200).json({ msg: "successfully registered" });
       });
     } else {
-      return res.json({ msg: "User already exists" });
+      return res.status(400).json({ msg: "User already exists" });
     }
   });
 };
