@@ -14,6 +14,7 @@ async function loginUser(event) {
     const response = await axios.post("http://localhost:3000/login", obj);
     if (response.status == 200) {
       alert(`${response.data.msg}`);
+      window.location.replace("finalExpenec.html");
     }
   } catch (err) {
     console.log(err);
