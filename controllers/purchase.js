@@ -1,5 +1,8 @@
 const Razorpay = require("razorpay");
-const Order = require("../model/order_model");
+const Order = require("../model/orders");
+const env = require("dotenv");
+env.config();
+
 const purchasepremium = async (req, res) => {
   try {
     var rzp = new Razorpay({
@@ -7,6 +10,7 @@ const purchasepremium = async (req, res) => {
       key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
     const amount = 2500;
+
     rzp.orders.create({ amount, currency: "INR" }, (err, order) => {
       if (err) {
         throw new Error(err);
@@ -25,6 +29,7 @@ const purchasepremium = async (req, res) => {
     res.status(403).json({ message: "Sometghing went wrong", error: err });
   }
 };
+
 const updateTransactionStatus = (req, res) => {
   try {
     const { payment_id, order_id } = req.body;
@@ -50,6 +55,7 @@ const updateTransactionStatus = (req, res) => {
     res.status(403).json({ errpr: err, message: "Sometghing went wrong" });
   }
 };
+
 module.exports = {
   purchasepremium,
   updateTransactionStatus,

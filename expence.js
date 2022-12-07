@@ -17,7 +17,7 @@ function save(event) {
   async function postDetails() {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:3000/save", obj, {
+      const res = await axios.post("http://localhost:3000/user/save", obj, {
         headers: { Authorization: token },
       });
       showUsers(res.data.newUserDetails);
@@ -31,9 +31,14 @@ window.addEventListener("DOMContentLoaded", () => {
   async function getDetails() {
     try {
       const token = localStorage.getItem("token");
-      let res = await axios.get("http://localhost:3000/showExpences", {
+      let res = await axios.get("http://localhost:3000/user/showExpences", {
         headers: { Authorization: token },
       });
+      if (res.data.ispre) {
+        document.body.style.backgroundColor = "#3399cc";
+        document.getElementById("rzp-button1").style.visibility = "hidden";
+        document.getElementById("h1").innerHTML = `<h3> PREMIUM ACCOUNT</h3>`;
+      }
       for (let i = 0; i < res.data.newUserDetails.length; i++) {
         showUsers(res.data.newUserDetails[i]);
       }
@@ -70,7 +75,7 @@ function deleteU(delID) {
   async function userDelete() {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.delete(`http://localhost:3000/${delID}`, {
+      const res = await axios.delete(`http://localhost:3000/user/${delID}`, {
         headers: { Authorization: token },
       });
       alert(`${res.data.msg}`);
@@ -90,15 +95,18 @@ function removeFromScreen(delID) {
   }
 }
 ////////////////////////////////////////////////////////////////
+
 document.getElementById("rzp-button1").onclick = async function (e) {
   const token = localStorage.getItem("token");
-  const response = await axios.get("http://localhost:3000/premiummembership", {
-    headers: { Authorization: token },
-  });
+  const response = await axios.get(
+    "http://localhost:3000/purchase/premiummembership",
+    {
+      headers: { Authorization: token },
+    }
+  );
   console.log(response);
   var options = {
-    key: response.data.rzp_test_ehrXSUV8GZRiuh,
-    mTXoALuTkaEDS1jXdM6kLQmq, // Enter the Key ID generated from the Dashboard
+    key: response.data.rzp_test_ehrXSUV8GZRiuh, // Enter the Key ID generated from the Dashboard
     name: "Test Company",
     order_id: response.data.order.id, // For one time payment
     prefill: {
@@ -115,7 +123,7 @@ document.getElementById("rzp-button1").onclick = async function (e) {
       const token = localStorage.getItem("token");
       axios
         .post(
-          "http://localhost:3000/updatetransactionstatus",
+          "http://localhost:3000/purchase/updatetransactionstatus",
           {
             order_id: options.order_id,
             payment_id: response.razorpay_payment_id,
@@ -124,6 +132,7 @@ document.getElementById("rzp-button1").onclick = async function (e) {
         )
         .then(() => {
           alert("You are a Premium User Now");
+          //document.body.style.backgroundColor = "#3399cc";
         })
         .catch(() => {
           alert("Something went wrong. Try Again!!!");

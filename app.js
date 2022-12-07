@@ -1,6 +1,6 @@
 // step 1
 const express = require("express");
-
+const Razorpay = require("razorpay");
 // step 2
 const app = express();
 
@@ -13,9 +13,9 @@ const resetPasswordRoutes = require("./routes/resetpassword");
 
 const dotenv = require("dotenv");
 
-// const userRoutes = require("./routes/user");
-// const purchaseRoutes = require("./routes/purchase");
-const Order = require("./model/order_model");
+const userRoutes = require("./routes/router");
+const purchaseRoutes = require("./routes/purchase");
+const Order = require("./model/orders");
 
 // step 3
 const cors = require("cors");
@@ -26,13 +26,9 @@ const User = require("./model/user_model");
 
 app.use(cors());
 app.use(bodyParser.json({ extended: false }));
-// app.use("/user", userRoutes);
+app.use("/user", userRoutes);
 
-// app.use("/purchase", purchaseRoutes);
-// var instance = new Razorpay({
-//   key_id: "YOUR_KEY_ID",
-//   key_secret: "YOUR_KEY_SECRET",
-// });
+app.use("/purchase", purchaseRoutes);
 
 // step 5
 
