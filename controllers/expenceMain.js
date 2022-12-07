@@ -20,7 +20,11 @@ exports.showDeails = (req, res) => {
     .getExpences()
     //Expence.findAll({ where: { userId: req.user.id } })
     .then((data) => {
-      res.json({ newUserDetails: data, ispre: req.user.ispremiumuser });
+      res.json({
+        newUserDetails: data,
+        ispre: req.user.ispremiumuser,
+        name: req.user.name,
+      });
     });
 };
 

@@ -10,7 +10,7 @@ exports.userLogin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const result = await User.findAll({ where: { email: email } });
-    console.log("userrr id >>>>>>>>>>.." + result[0].id);
+
     if (result) {
       bcrypt.compare(password, result[0].password, (err, newResult) => {
         if (err) {

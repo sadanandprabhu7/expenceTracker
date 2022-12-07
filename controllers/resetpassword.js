@@ -10,10 +10,9 @@ const User = require("../model/user_model");
 const Forgotpassword = require("../model/forgotpassword");
 
 const forgotpassword = async (req, res) => {
-  console.log(req.body.email);
   try {
     const { email } = req.body;
-    console.log(email);
+
     const user = await User.findOne({ where: { email } });
     if (user) {
       const id = uuid.v4();
@@ -62,7 +61,7 @@ const forgotpassword = async (req, res) => {
 
 const resetpassword = (req, res) => {
   const id = req.params.id;
-  console.log(id);
+
   Forgotpassword.findOne({ where: { id } }).then((forgotpasswordrequest) => {
     if (forgotpasswordrequest) {
       forgotpasswordrequest.update({ active: false });

@@ -11,6 +11,8 @@ const sequelize = require("./util/database");
 const Forgotpassword = require("./model/forgotpassword");
 const resetPasswordRoutes = require("./routes/resetpassword");
 
+const leaderShipRoutes = require("./routes/leadership");
+
 const dotenv = require("dotenv");
 
 const userRoutes = require("./routes/router");
@@ -26,6 +28,7 @@ const User = require("./model/user_model");
 
 app.use(cors());
 app.use(bodyParser.json({ extended: false }));
+
 app.use("/user", userRoutes);
 
 app.use("/purchase", purchaseRoutes);
@@ -35,6 +38,7 @@ app.use("/purchase", purchaseRoutes);
 app.use("/password", resetPasswordRoutes);
 
 app.use(routesAdmin);
+app.use(leaderShipRoutes);
 
 User.hasMany(Expence);
 Expence.belongsTo(User);
