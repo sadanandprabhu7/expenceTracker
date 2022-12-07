@@ -21,7 +21,6 @@ exports.userLogin = async (req, res, next) => {
             success: true,
             msg: "sucessfull login",
             token: generateToken(result[0].id),
-            
           });
         } else {
           return res
@@ -37,4 +36,11 @@ exports.userLogin = async (req, res, next) => {
   } catch (err) {
     res.status(500).json({ success: false, msg: "User does not exists" });
   }
+};
+
+exports.findEmail = async (req, res, next) => {
+  const email = req.body.data;
+  console.log(email);
+  const user = await User.findAll({ where: { email: email } });
+  res.status(200).json({ data: user });
 };
