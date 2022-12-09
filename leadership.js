@@ -5,7 +5,6 @@ window.addEventListener("DOMContentLoaded", () => {
       headers: { Authorization: token },
     })
     .then((res) => {
-      console.log(res);
       if (res.data.data) {
         getUserDetails();
       }
@@ -18,7 +17,6 @@ function getUserDetails() {
       headers: { Authorization: token },
     })
     .then((res) => {
-      console.log(res);
       const nameTd = document.getElementById("userName");
 
       res.data.data.forEach((user) => {

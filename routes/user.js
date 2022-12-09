@@ -36,4 +36,10 @@ router.get(
   mainController.downloadExpence
 );
 
+router.get(
+  "/allDownload",
+  userAuthorization.authenticate,
+  mainController.allDownload
+);
+
 module.exports = router;

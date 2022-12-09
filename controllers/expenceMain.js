@@ -1,5 +1,6 @@
 const { where } = require("sequelize");
 const Expence = require("../model/expenceMain");
+const Urls = require("../model/url");
 const User = require("../model/user_model");
 const AWS = require("aws-sdk");
 const env = require("dotenv");
@@ -52,6 +53,7 @@ exports.downloadExpence = async (req, res) => {
   const userId = req.user.id;
   const filename = `Expence${userId}/${new Date()}.txt`;
   const filrUrl = await uploadToS3(strigyfyExpences, filename);
+  Urls.create({ url: filrUrl, userId: req.user.id });
   res.status(200).json({ data: filrUrl, success: true });
 };
 
@@ -82,3 +84,8 @@ function uploadToS3(data, filename) {
     });
   });
 }
+
+exports.allDownload = async (req, res, next) => {
+  const urls = await req.user.getUrls();
+  res.json({ data: urls });
+};

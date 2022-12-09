@@ -5,6 +5,7 @@ const Razorpay = require("razorpay");
 const app = express();
 
 const Expence = require("./model/expenceMain");
+const Urls = require("./model/url");
 const routesAdmin = require("./routes/user");
 const sequelize = require("./util/database");
 
@@ -48,6 +49,8 @@ Order.belongsTo(User);
 
 User.hasMany(Forgotpassword);
 Forgotpassword.belongsTo(User);
+
+User.hasMany(Urls);
 sequelize
   //.sync({ force: true })
   .sync()

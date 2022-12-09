@@ -30,7 +30,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     let res = await axios.get("http://localhost:3000/user/showExpences", {
       headers: { Authorization: token },
     });
+
     if (res.data.ispre) {
+      allDownload();
       document.body.style.backgroundColor = "#3399cc";
       document.getElementById("rzp-button1").style.visibility = "hidden";
       document.getElementById(
@@ -99,9 +101,21 @@ async function download() {
     var a = document.createElement("a");
 
     a.href = url;
-    a.download = "myexpense.txt";
+    a.download = "myexpense.csv";
     a.click();
   } else {
     throw new Error(data.data.message);
   }
+}
+
+async function allDownload() {
+  const token = localStorage.getItem("token");
+  const data = await axios.get("http://localhost:3000/user/allDownload", {
+    headers: { Authorization: token },
+  });
+  const pli = document.getElementById("download");
+  data.data.data.forEach((url) => {
+    const li = `<li><a href=${url.url}>${url.createdAt}</a></li>`;
+    pli.innerHTML += li;
+  });
 }
