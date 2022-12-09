@@ -38,9 +38,8 @@ exports.userLogin = async (req, res, next) => {
   }
 };
 
-exports.findEmail = async (req, res, next) => {
-  const email = req.body.data;
-  console.log(email);
-  const user = await User.findAll({ where: { email: email } });
-  res.status(200).json({ data: user });
-};
+// exports.findEmail = async (req, res, next) => {
+//   const email = req.body.data;
+//   const user = await User.findAll({ where: { email: email } });
+//   res.status(200).json({ data: user });
+// };

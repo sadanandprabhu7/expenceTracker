@@ -5,7 +5,7 @@ const Razorpay = require("razorpay");
 const app = express();
 
 const Expence = require("./model/expenceMain");
-const routesAdmin = require("./routes/router");
+const routesAdmin = require("./routes/user");
 const sequelize = require("./util/database");
 
 const Forgotpassword = require("./model/forgotpassword");
@@ -15,7 +15,7 @@ const leaderShipRoutes = require("./routes/leadership");
 
 const dotenv = require("dotenv");
 
-const userRoutes = require("./routes/router");
+const userRoutes = require("./routes/user");
 const purchaseRoutes = require("./routes/purchase");
 const Order = require("./model/orders");
 
