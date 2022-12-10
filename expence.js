@@ -23,25 +23,44 @@ async function save(event) {
     document.getElementById("description").value = "";
     document.getElementById("category").value = "";
     // showUsers(res.data.newUserDetails);
-    showUsers();
   } catch (e) {
     console.log("somthing went wrong");
   }
 }
+
 const pagination = document.getElementById("pagination");
 let pareNode = document.getElementById("expenceDetails");
+
+document.getElementById("myBtn").addEventListener("click", () => {
+  const limit = document.getElementById("val").value;
+  const token = localStorage.getItem("token");
+  const page = 1;
+
+  axios
+    .get(
+      `http://localhost:3000/user/showExpences?page=${page}`,
+
+      {
+        headers: { Authorization: token, limit: limit },
+      }
+    )
+    .then((res) => {
+      productList(res.data);
+      showUsers(res.data.expences);
+    });
+});
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     const token = localStorage.getItem("token");
     const page = 1;
 
-    const itemPage = document.getElementById("val").value;
+    // const itemPage = document.getElementById("val").value;
 
     let res = await axios.get(
       `http://localhost:3000/user/showExpences?page=${page}`,
 
       {
-        headers: { Authorization: token, itemPage: itemPage },
+        headers: { Authorization: token },
       }
     );
 

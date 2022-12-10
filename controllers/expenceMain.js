@@ -18,9 +18,11 @@ exports.addDetails = async (req, res, next) => {
   });
   res.status(201).json({ newUserDetails: data });
 };
-let ITEMS_PER_PAGE = 10;
+
 exports.showDeails = (req, res) => {
   const page = +req.query.page || 1;
+
+  const ITEMS_PER_PAGE = +req.header("limit") || 4;
   //console.log(req.header("itemPage"));
   let totalItems;
 
