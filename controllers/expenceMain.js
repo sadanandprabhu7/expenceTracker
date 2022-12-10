@@ -18,19 +18,45 @@ exports.addDetails = async (req, res, next) => {
   });
   res.status(201).json({ newUserDetails: data });
 };
-
+let ITEMS_PER_PAGE = 2;
 exports.showDeails = (req, res) => {
-  req.user
-    .getExpences()
-    //Expence.findAll({ where: { userId: req.user.id } })
-    .then((data) => {
+  const page = +req.query.page || 1;
+  let totalItems;
+  Expence.count({ where: { userId: req.user.id } })
+    .then((total) => {
+      totalItems = total;
+      return Expence.findAll({
+        offset: (page - 1) * ITEMS_PER_PAGE,
+        limit: ITEMS_PER_PAGE,
+        userId: req.user.id,
+      });
+    })
+    .then((expences) => {
       res.json({
-        newUserDetails: data,
+        expences: expences,
         ispre: req.user.ispremiumuser,
         name: req.user.name,
+        currentPage: page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        hasPriviousPage: page > 1,
+        nextPage: page + 1,
+        previosPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
       });
-    });
+    })
+    .catch((err) => console.log(err));
 };
+
+// req.user
+//   .getExpences()
+//   //Expence.findAll({ where: { userId: req.user.id } })
+//   .then((data) => {
+//     res.json({
+//       newUserDetails: data,
+//       ispre: req.user.ispremiumuser,
+//       name: req.user.name,
+//     });
+//   });
 
 exports.deleteDeails = (req, res, next) => {
   const prodId = req.params.id;

@@ -17,17 +17,17 @@ function getUserDetails() {
       headers: { Authorization: token },
     })
     .then((res) => {
-      const nameTd = document.getElementById("userName");
+      const userName = document.getElementById("listofuser");
 
       res.data.data.forEach((user) => {
         const name = `
-        <td><button onclick=show(${user.id}) >${user.name}</button></td>`;
-        nameTd.innerHTML += name;
+        <li><button onclick=show(${user.id}) >${user.name}</button></li>`;
+        userName.innerHTML += name;
       });
     });
 }
 function show(id) {
-  const table = document.getElementById("myItems");
+  const table = document.getElementById("seethem");
   const token = localStorage.getItem("token");
   axios
     .get(`http://localhost:3000/details/${id}`, {
@@ -38,17 +38,14 @@ function show(id) {
       const expenceDetails = res.data.data;
 
       for (let i = 0; i < expenceDetails.length; i++) {
-        let li = `<li>${expenceDetails[i].expence}--
-       ${expenceDetails[i].description}--
-        ${expenceDetails[i].category}</li>`;
-        table.innerHTML += li;
+        let tr = `<tr><th>AMOUNT </th>
+        <th>DESCRIPTION</th>
+        <th>CATEGORY</th>
+    </tr> 
+        <tr><td>${expenceDetails[i].expence} </td>
+  <td>${expenceDetails[i].description}</td>
+  <td>${expenceDetails[i].category}</td>`;
+        table.innerHTML += tr;
       }
-
-      //   res.data.data.forEach((expence) => {
-      //     let li = `<li>${expence.expence}--
-      //     ${expence.description}--
-      //     ${expence.category}</li>`;
-      //     table.innerHTML += li;
-      //   });
     });
 }

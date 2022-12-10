@@ -6,11 +6,11 @@ document.getElementById("rzp-button1").onclick = async function (e) {
       headers: { Authorization: token },
     }
   );
-  console.log(response);
+
   var options = {
-    key: response.data.rzp_test_ehrXSUV8GZRiuh, // Enter the Key ID generated from the Dashboard
+    key: response.data.rzp_test_ehrXSUV8GZRiuh,
     name: "Test Company",
-    order_id: response.data.order.id, // For one time payment
+    order_id: response.data.order.id,
     prefill: {
       name: "Test User",
       email: "test.user@example.com",
@@ -19,9 +19,7 @@ document.getElementById("rzp-button1").onclick = async function (e) {
     theme: {
       color: "#3399cc",
     },
-    // This handler function will handle the success payment
     handler: function (response) {
-      console.log(response);
       const token = localStorage.getItem("token");
       axios
         .post(
@@ -34,7 +32,6 @@ document.getElementById("rzp-button1").onclick = async function (e) {
         )
         .then(() => {
           alert("You are a Premium User Now");
-          //document.body.style.backgroundColor = "#3399cc";
         })
         .catch(() => {
           alert("Something went wrong. Try Again!!!");

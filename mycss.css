@@ -1,0 +1,116 @@
+body {
+  font-family: arial, helvetica;
+  margin-top: 0;
+  padding: 0;
+}
+#wrapper {
+  width: 80%;
+  border: 1px solid black;
+
+  background-color: white;
+  margin: 0 auto;
+}
+#header {
+  background-color: crimson;
+  height: 100px;
+  color: white;
+}
+#header h1 {
+  padding: 30px 0 0 40px;
+  margin-top: 0px;
+}
+#menu {
+  background-color: lightsalmon;
+}
+#menu li {
+  display: inline-block;
+  /* to display  inline and as block to give width and height; */
+}
+#menu li a {
+  display: block;
+  padding: 10px 10px;
+
+  text-decoration: none;
+  color: black;
+  /* link ka underline hatane ke kiye aur uske text ka 
+  color badalne ke liye*/
+}
+#menu li a:hover {
+  background-color: crimson;
+  color: white;
+}
+#menu ul {
+  margin: 0;
+  padding: 0;
+  /* ul ki padding: margin by default jo h use hatane ke liye; */
+}
+/* game of float starts here */
+#content {
+  width: 60%;
+  float: left;
+
+  min-height: 500px;
+  /* ese ye hota h ki ye minimum 500px
+  rahega lekin use jada hua content to pane aap badh
+  jayega */
+
+  padding: 10px;
+  /* padding: dete hi size padh jati h charo trf se 
+  use sahi krne ke liye boxsizing use krte h*/
+  box-sizing: border-box;
+}
+#sidebar1 {
+  background-color: rgb(120, 226, 194);
+  width: 20%;
+  float: left;
+
+  min-height: 500px;
+  padding: 10px;
+  /* padding: dete hi size padh jati h charo trf se 
+  use sahi krne ke liye boxsizing use krte h*/
+  box-sizing: border-box;
+}
+#sidebar2 {
+  background-color: lightblue;
+  width: 20%;
+  float: right;
+
+  min-height: 500px;
+  min-height: 500px;
+  padding: 10px;
+  /* padding: dete hi size padh jati h charo trf se 
+  use sahi krne ke liye boxsizing use krte h*/
+  box-sizing: border-box;
+}
+#footer {
+  background-color: lightsalmon;
+  clear: both;
+  /* clear both hi float sahi se kara raha h
+  dono side bar ko; */
+
+  padding: 5px 10px;
+  /* uper niche 5px left right 10 px */
+  text-align: right;
+  /* right se dikhne ke liye esme ka content*/
+}
+#rzp-button1,
+#downloadFile {
+  position: fixed;
+  top: 10px;
+  right: 11%;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #d6eeee;
+}
