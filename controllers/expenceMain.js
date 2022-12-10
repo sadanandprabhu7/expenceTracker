@@ -18,14 +18,16 @@ exports.addDetails = async (req, res, next) => {
   });
   res.status(201).json({ newUserDetails: data });
 };
-let ITEMS_PER_PAGE = 2;
+let ITEMS_PER_PAGE = 10;
 exports.showDeails = (req, res) => {
   const page = +req.query.page || 1;
+  //console.log(req.header("itemPage"));
   let totalItems;
+
   Expence.count({ where: { userId: req.user.id } })
     .then((total) => {
       totalItems = total;
-      return Expence.findAll({
+      return req.user.getExpences({
         offset: (page - 1) * ITEMS_PER_PAGE,
         limit: ITEMS_PER_PAGE,
         userId: req.user.id,

@@ -22,7 +22,8 @@ async function save(event) {
     document.getElementById("expence").value = "";
     document.getElementById("description").value = "";
     document.getElementById("category").value = "";
-    //showUsers(res.data.newUserDetails);
+    // showUsers(res.data.newUserDetails);
+    showUsers();
   } catch (e) {
     console.log("somthing went wrong");
   }
@@ -34,28 +35,26 @@ window.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     const page = 1;
 
+    const itemPage = document.getElementById("val").value;
+
     let res = await axios.get(
       `http://localhost:3000/user/showExpences?page=${page}`,
+
       {
-        headers: { Authorization: token },
+        headers: { Authorization: token, itemPage: itemPage },
       }
     );
-    console.log(res);
-
-    console.log(res.data.name);
-    productList(res.data);
-    showUsers(res.data.expences);
 
     document.getElementById("downloadFile").style.visibility = "hidden";
     document.getElementById("h1").innerHTML = ` ${res.data.name} `;
     if (res.data.ispre) {
       allDownload();
+      productList(res.data);
+      showUsers(res.data.expences);
       document.body.style.backgroundColor = "#3399cc";
       document.getElementById("rzp-button1").style.visibility = "hidden";
       document.getElementById("downloadFile").style.visibility = "visible";
     }
-
-    console.log(res.data.expences);
   } catch (e) {
     console.log(e + "somthing went wrong");
   }
@@ -173,7 +172,7 @@ function productList({
   }
   if (lastPage !== currentPage && nextPage !== lastPage) {
     const btn4 = document.createElement("button");
-    btn4.innerHTML = lastPage;
+    btn4.innerHTML = "Last Page";
     btn4.addEventListener("click", () => getExpences(lastPage));
     pagination.appendChild(btn4);
   }

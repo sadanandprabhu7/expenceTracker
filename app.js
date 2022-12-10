@@ -1,6 +1,10 @@
 // step 1
 const express = require("express");
 const Razorpay = require("razorpay");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const fs = require("fs");
+
 // step 2
 const app = express();
 
@@ -26,8 +30,15 @@ const cors = require("cors");
 // step 4
 const bodyParser = require("body-parser");
 const User = require("./model/user_model");
+const path = require("path");
 
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
 app.use(cors());
+app.use(helmet());
+app.use(morgan("combined", { stream: accessLogStream }));
 app.use(bodyParser.json({ extended: false }));
 
 app.use("/user", userRoutes);

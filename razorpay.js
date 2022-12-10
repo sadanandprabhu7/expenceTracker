@@ -1,3 +1,6 @@
+// const env = require("dotenv");
+// env.config()
+
 document.getElementById("rzp-button1").onclick = async function (e) {
   const token = localStorage.getItem("token");
   const response = await axios.get(
