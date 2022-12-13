@@ -1,6 +1,10 @@
 async function forgot(event) {
   try {
     event.preventDefault();
+    if (event.target.email.value == "") {
+      alert("Enter Your Email Please");
+      return;
+    }
     const email = event.target.email.value;
     console.log(email);
     const obj = {
