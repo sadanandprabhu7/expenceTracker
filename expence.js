@@ -19,6 +19,8 @@ async function save(event) {
     const res = await axios.post("http://localhost:3000/user/save", obj, {
       headers: { Authorization: token },
     });
+    alert(`${res.data.msg}`);
+
     document.getElementById("expence").value = "";
     document.getElementById("description").value = "";
     document.getElementById("category").value = "";
@@ -31,31 +33,30 @@ async function save(event) {
 const pagination = document.getElementById("pagination");
 let pareNode = document.getElementById("expenceDetails");
 
-document.getElementById("myBtn").addEventListener("click", () => {
-  const limit = document.getElementById("val").value;
-  const token = localStorage.getItem("token");
-  const page = 1;
+document.getElementById("myBtn").addEventListener("click", async () => {
+  try {
+    const limit = document.getElementById("val").value;
+    const token = localStorage.getItem("token");
+    const page = 1;
 
-  axios
-    .get(
+    const res = await axios.get(
       `http://localhost:3000/user/showExpences?page=${page}`,
-
       {
         headers: { Authorization: token, limit: limit },
       }
-    )
-    .then((res) => {
-      productList(res.data);
-      showUsers(res.data.expences);
-    });
+    );
+
+    expenceList(res.data);
+    showUsers(res.data.expences);
+  } catch (err) {
+    console.log(err);
+    alert("somthing went wrong");
+  }
 });
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     const token = localStorage.getItem("token");
     const page = 1;
-
-    // const itemPage = document.getElementById("val").value;
-
     let res = await axios.get(
       `http://localhost:3000/user/showExpences?page=${page}`,
 
@@ -68,7 +69,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("h1").innerHTML = ` ${res.data.name} `;
     if (res.data.ispre) {
       allDownload();
-      productList(res.data);
+      expenceList(res.data);
       showUsers(res.data.expences);
       document.body.style.backgroundColor = "#3399cc";
       document.getElementById("rzp-button1").style.visibility = "hidden";
@@ -109,12 +110,12 @@ async function deleteU(delID) {
     const res = await axios.delete(`http://localhost:3000/user/${delID}`, {
       headers: { Authorization: token },
     });
-    alert(`${res.data.msg}`);
-  } catch (e) {
-    console.log(e + "somthing went wrong");
+    //alert(`${res.data.msg}`);
+    removeFromScreen(delID);
+  } catch (err) {
+    console.log(err);
+    alert("somthing went wrong");
   }
-
-  removeFromScreen(delID);
 }
 
 function removeFromScreen(delID) {
@@ -127,36 +128,44 @@ function removeFromScreen(delID) {
   // }
 }
 async function download() {
-  const token = localStorage.getItem("token");
-  const data = await axios.get("http://localhost:3000/user/download", {
-    headers: { Authorization: token },
-  });
-
-  const url = data.data.data;
-  if (data.status === 200) {
-    var a = document.createElement("a");
-
-    a.href = url;
-    a.download = "myexpense.csv";
-    a.click();
-  } else {
-    throw new Error(data.data.message);
+  try {
+    const token = localStorage.getItem("token");
+    const data = await axios.get("http://localhost:3000/user/download", {
+      headers: { Authorization: token },
+    });
+    const url = data.data.data;
+    if (data.status === 200) {
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "myexpense.csv";
+      a.click();
+    } else {
+      throw new Error(data.data.message);
+    }
+  } catch (err) {
+    console.log(err);
+    alert("somthing went wrong");
   }
 }
 
 async function allDownload() {
-  const token = localStorage.getItem("token");
-  const data = await axios.get("http://localhost:3000/user/allDownload", {
-    headers: { Authorization: token },
-  });
-  const pli = document.getElementById("download");
-  data.data.data.forEach((url) => {
-    const li = `<li><a href=${url.url}>${url.createdAt}</a></li>`;
-    pli.innerHTML += li;
-  });
+  try {
+    const token = localStorage.getItem("token");
+    const data = await axios.get("http://localhost:3000/user/allDownload", {
+      headers: { Authorization: token },
+    });
+    const pli = document.getElementById("download");
+    data.data.data.forEach((url) => {
+      const li = `<li><a href=${url.url}>${url.createdAt}</a></li>`;
+      pli.innerHTML += li;
+    });
+  } catch (err) {
+    console.log(err);
+    alert("somthing went wrong");
+  }
 }
 
-function productList({
+function expenceList({
   currentPage,
   hasNextPage,
   nextPage,
@@ -198,13 +207,18 @@ function productList({
 }
 
 async function getExpences(page) {
-  const token = localStorage.getItem("token");
-  let res = await axios.get(
-    `http://localhost:3000/user/showExpences?page=${page}`,
-    {
-      headers: { Authorization: token },
-    }
-  );
-  productList(res.data);
-  showUsers(res.data.expences);
+  try {
+    const token = localStorage.getItem("token");
+    let res = await axios.get(
+      `http://localhost:3000/user/showExpences?page=${page}`,
+      {
+        headers: { Authorization: token },
+      }
+    );
+    expenceList(res.data);
+    showUsers(res.data.expences);
+  } catch (err) {
+    console.log(err);
+    alert("somthing went wrong");
+  }
 }

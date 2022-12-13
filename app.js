@@ -5,6 +5,9 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const fs = require("fs");
 
+const https = require("https");
+// const privateKey = fs.readFileSync("server.key");
+// const certificate = fs.readFileSync("server.cert");
 // step 2
 const app = express();
 
@@ -19,6 +22,7 @@ const resetPasswordRoutes = require("./routes/resetpassword");
 const leaderShipRoutes = require("./routes/leadership");
 
 const dotenv = require("dotenv");
+dotenv.config();
 
 const userRoutes = require("./routes/user");
 const purchaseRoutes = require("./routes/purchase");
@@ -67,8 +71,10 @@ sequelize
   .sync()
   .then((result) => {
     //console.log(result);
-
-    app.listen(3000);
+    // https
+    //   .createServer({ key: privateKey, cert: certificate }, app)
+    //   .listen(process.env.PORT);
+    app.listen(process.env.PORT);
   })
   .catch((err) => {
     console.log(err);

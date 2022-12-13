@@ -7,16 +7,18 @@ const env = require("dotenv");
 env.config();
 
 exports.addDetails = async (req, res, next) => {
-  const expence = req.body.expence;
-  const description = req.body.description;
-  const category = req.body.category;
-  const data = await Expence.create({
-    expence: expence,
-    description: description,
-    category: category,
-    userId: req.user.id,
-  });
-  res.status(201).json({ newUserDetails: data });
+  try {
+    const { expence, description, category } = req.body;
+    const data = await Expence.create({
+      expence,
+      description,
+      category,
+      userId: req.user.id,
+    });
+    res.status(201).json({ newUserDetails: data, msg: "successfully added" });
+  } catch (err) {
+    res.json({ msg: "somthing went wrong" });
+  }
 };
 
 exports.showDeails = (req, res) => {
@@ -51,17 +53,6 @@ exports.showDeails = (req, res) => {
     .catch((err) => console.log(err));
 };
 
-// req.user
-//   .getExpences()
-//   //Expence.findAll({ where: { userId: req.user.id } })
-//   .then((data) => {
-//     res.json({
-//       newUserDetails: data,
-//       ispre: req.user.ispremiumuser,
-//       name: req.user.name,
-//     });
-//   });
-
 exports.deleteDeails = (req, res, next) => {
   const prodId = req.params.id;
   Expence.findByPk(prodId)
@@ -78,13 +69,17 @@ exports.deleteDeails = (req, res, next) => {
 };
 
 exports.downloadExpence = async (req, res) => {
-  const expence = await req.user.getExpences();
-  const strigyfyExpences = JSON.stringify(expence);
-  const userId = req.user.id;
-  const filename = `Expence${userId}/${new Date()}.txt`;
-  const filrUrl = await uploadToS3(strigyfyExpences, filename);
-  Urls.create({ url: filrUrl, userId: req.user.id });
-  res.status(200).json({ data: filrUrl, success: true });
+  try {
+    const expence = await req.user.getExpences();
+    const strigyfyExpences = JSON.stringify(expence);
+    const userId = req.user.id;
+    const filename = `Expence${userId}/${new Date()}.txt`;
+    const filrUrl = await uploadToS3(strigyfyExpences, filename);
+    Urls.create({ url: filrUrl, userId: req.user.id });
+    res.status(200).json({ data: filrUrl, success: true });
+  } catch (err) {
+    res.json({ msg: "somthing went wrong" });
+  }
 };
 
 function uploadToS3(data, filename) {
@@ -116,6 +111,10 @@ function uploadToS3(data, filename) {
 }
 
 exports.allDownload = async (req, res, next) => {
-  const urls = await req.user.getUrls();
-  res.json({ data: urls });
+  try {
+    const urls = await req.user.getUrls();
+    res.json({ data: urls });
+  } catch (err) {
+    res.json({ msg: "somthing went wrong" });
+  }
 };

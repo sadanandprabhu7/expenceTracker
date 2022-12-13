@@ -1,6 +1,3 @@
-// const env = require("dotenv");
-// env.config()
-
 document.getElementById("rzp-button1").onclick = async function (e) {
   const token = localStorage.getItem("token");
   const response = await axios.get(
@@ -22,23 +19,21 @@ document.getElementById("rzp-button1").onclick = async function (e) {
     theme: {
       color: "#3399cc",
     },
-    handler: function (response) {
-      const token = localStorage.getItem("token");
-      axios
-        .post(
+    handler: async function (response) {
+      try {
+        const token = localStorage.getItem("token");
+        await axios.post(
           "http://localhost:3000/purchase/updatetransactionstatus",
           {
             order_id: options.order_id,
             payment_id: response.razorpay_payment_id,
           },
           { headers: { Authorization: token } }
-        )
-        .then(() => {
-          alert("You are a Premium User Now");
-        })
-        .catch(() => {
-          alert("Something went wrong. Try Again!!!");
-        });
+        );
+        alert("You are a Premium User Now");
+      } catch (err) {
+        alert("Something went wrong. Try Again!!!");
+      }
     },
   };
   const rzp1 = new Razorpay(options);
