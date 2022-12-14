@@ -61,7 +61,8 @@ app.use((req, res) => {
 
 User.hasMany(Expence);
 Expence.belongsTo(User);
-///adddedd/// new file
+///adddedd/// new file bghgfhghfgh
+//make changes
 User.hasMany(Order);
 Order.belongsTo(User);
 
