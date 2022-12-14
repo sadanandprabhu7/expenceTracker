@@ -58,7 +58,7 @@ app.use(leaderShipRoutes);
 
 User.hasMany(Expence);
 Expence.belongsTo(User);
-
+///adddedd/// new file
 User.hasMany(Order);
 Order.belongsTo(User);
 
