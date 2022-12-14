@@ -13,16 +13,16 @@ async function loginUser(event) {
     };
     const response = await axios.post("http://localhost:3000/login", obj);
     if (response.status == 200) {
-      alert(`${response.data.msg}`);
-      console.log(response.data.token);
+      // alert(`${response.data.msg}`);
+      // console.log(response.data.token);
       localStorage.setItem("token", response.data.token);
       window.location.replace("finalExpenec.html");
     }
   } catch (err) {
     console.log(err);
-    alert(
-      `${err.response.data.msg} status code : ${err.response.request.status}`
-    );
+    // alert(
+    //   `${err.response.data.msg} status code : ${err.response.request.status}`
+    // );
     event.target.email.value = "";
     event.target.password.value = "";
   }
