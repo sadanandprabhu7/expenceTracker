@@ -4,27 +4,31 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="regis.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"
+      async
+    ></script>
+    <script src="signUp.js" defer></script>
   </head>
-
   <body>
     <div id="regis-wrapper">
       <h2 id="h1">Expense Tracker</h2>
       <div id="regis-content"></div>
-      <form onsubmit="loginUser(event)" id="loginform">
+      <form onsubmit="resgister(event)" id="form">
         <table id="regis">
           <tr>
-            <th id="h1"><h2>Login</h2></th>
+            <th id="h1"><h2>Sign up</h2></th>
           </tr>
           <tr>
             <td>
               <input
                 class="input"
+                id="name"
                 type="text"
-                id="loginemail"
-                name="email"
-                placeholder="Your Email"
+                name="name"
+                placeholder="Your Name"
               />
             </td>
           </tr>
@@ -32,27 +36,33 @@
             <td>
               <input
                 class="input"
+                id="email"
+                type="text"
+                name="email"
+                placeholder="Your Email"
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <input
+                class="input"
+                id="password"
                 type="password"
-                id="loginpassword"
                 name="password"
                 placeholder="Your Password"
               />
             </td>
           </tr>
           <tr>
-            <td><button class="input" id="login">Login</button></td>
+            <td><button id="signUpBtn">submit</button></td>
           </tr>
           <tr>
-            <td><a href="signUp.html">New User</a></td>
-          </tr>
-          <tr>
-            <td><a href="forgot_password.html">Forgot Password</a></td>
+            <td><a href="login.html">login</a></td>
           </tr>
         </table>
       </form>
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
-      <script src="login.js"></script>
     </div>
   </body>
 </html>

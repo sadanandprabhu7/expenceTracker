@@ -27,22 +27,22 @@ dotenv.config();
 const userRoutes = require("./routes/user");
 const purchaseRoutes = require("./routes/purchase");
 const Order = require("./model/orders");
+const bodyParser = require("body-parser");
+const User = require("./model/user_model");
+const path = require("path");
 
 // step 3
 const cors = require("cors");
 
 // step 4
-const bodyParser = require("body-parser");
-const User = require("./model/user_model");
-const path = require("path");
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "access.log"),
-  { flags: "a" }
-);
+// const accessLogStream = fs.createWriteStream(
+//   path.join(__dirname, "access.log"),
+//   { flags: "a" }
+// );
 app.use(cors());
-app.use(helmet());
-app.use(morgan("combined", { stream: accessLogStream }));
+//app.use(helmet());
+//app.use(morgan("combined", { stream: accessLogStream }));
 app.use(bodyParser.json({ extended: false }));
 
 app.use("/user", userRoutes);
@@ -55,6 +55,9 @@ app.use("/password", resetPasswordRoutes);
 
 app.use(routesAdmin);
 app.use(leaderShipRoutes);
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, `public/${req.url}`));
+});
 
 User.hasMany(Expence);
 Expence.belongsTo(User);
