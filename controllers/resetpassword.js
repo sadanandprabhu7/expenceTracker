@@ -22,7 +22,7 @@ const forgotpassword = async (req, res) => {
 
       res.json({
         id: id,
-        html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
+        html: `<a href="http://13.231.213.48:3000/password/resetpassword/${id}">Reset password</a>`,
       });
 
       // sgMail.setApiKey(process.env.SENGRID_API_KEY);
@@ -32,7 +32,7 @@ const forgotpassword = async (req, res) => {
       //   from: "yj.rocks.2411@gmail.com", // Change to your verified sender
       //   subject: "Sending with SendGrid is Fun",
       //   text: "and easy to do anywhere, even with Node.js",
-      //   html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
+      //   html: `<a href="http://13.231.213.48:3000/password/resetpassword/${id}">Reset password</a>`,
       // };
 
       //     sgMail

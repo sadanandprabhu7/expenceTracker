@@ -11,7 +11,7 @@ async function forgot(event) {
       email: email,
     };
     const data = await axios.post(
-      "http://localhost:3000/password/forgotpassword",
+      "http://13.231.213.48:3000/password/forgotpassword",
       obj
     );
     document.body.innerHTML = `${data.data.html}`;

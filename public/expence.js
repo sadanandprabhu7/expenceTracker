@@ -16,7 +16,7 @@ async function save(event) {
 
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.post("http://localhost:3000/user/save", obj, {
+    const res = await axios.post("http://13.231.213.48:3000/user/save", obj, {
       headers: { Authorization: token },
     });
     alert(`${res.data.msg}`);
@@ -40,7 +40,7 @@ document.getElementById("myBtn").addEventListener("click", async () => {
     const page = 1;
 
     const res = await axios.get(
-      `http://localhost:3000/user/showExpences?page=${page}`,
+      `http://13.231.213.48:3000/user/showExpences?page=${page}`,
       {
         headers: { Authorization: token, limit: limit },
       }
@@ -58,7 +58,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("token");
     const page = 1;
     let res = await axios.get(
-      `http://localhost:3000/user/showExpences?page=${page}`,
+      `http://13.231.213.48:3000/user/showExpences?page=${page}`,
 
       {
         headers: { Authorization: token },
@@ -107,7 +107,7 @@ function edit(expenceU, descriptionU, categoryU, userID) {
 async function deleteU(delID) {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.delete(`http://localhost:3000/user/${delID}`, {
+    const res = await axios.delete(`http://13.231.213.48:3000/user/${delID}`, {
       headers: { Authorization: token },
     });
     //alert(`${res.data.msg}`);
@@ -130,7 +130,7 @@ function removeFromScreen(delID) {
 async function download() {
   try {
     const token = localStorage.getItem("token");
-    const data = await axios.get("http://localhost:3000/user/download", {
+    const data = await axios.get("http://13.231.213.48:3000/user/download", {
       headers: { Authorization: token },
     });
     const url = data.data.data;
@@ -151,7 +151,7 @@ async function download() {
 async function allDownload() {
   try {
     const token = localStorage.getItem("token");
-    const data = await axios.get("http://localhost:3000/user/allDownload", {
+    const data = await axios.get("http://13.231.213.48:3000/user/allDownload", {
       headers: { Authorization: token },
     });
     const pli = document.getElementById("download");
@@ -210,7 +210,7 @@ async function getExpences(page) {
   try {
     const token = localStorage.getItem("token");
     let res = await axios.get(
-      `http://localhost:3000/user/showExpences?page=${page}`,
+      `http://13.231.213.48:3000/user/showExpences?page=${page}`,
       {
         headers: { Authorization: token },
       }

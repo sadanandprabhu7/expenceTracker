@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:3000/ispre", {
+    const res = await axios.get("http://13.231.213.48:3000/ispre", {
       headers: { Authorization: token },
     });
 
@@ -16,7 +16,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 async function getUserDetails() {
   try {
     const token = localStorage.getItem("token");
-    const res = await axios.get("http://localhost:3000/leadership", {
+    const res = await axios.get("http://13.231.213.48:3000/leadership", {
       headers: { Authorization: token },
     });
     const leadershipTable = document.getElementById("newTr");
@@ -40,7 +40,7 @@ async function show(id) {
   try {
     const table = document.getElementById("seethem");
     const token = localStorage.getItem("token");
-    const res = await axios.get(`http://localhost:3000/details/${id}`, {
+    const res = await axios.get(`http://13.231.213.48:3000/details/${id}`, {
       headers: { Authorization: token },
     });
 

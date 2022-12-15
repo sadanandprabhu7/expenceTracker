@@ -12,7 +12,7 @@ async function resgister(event) {
       email,
       password,
     };
-    const response = await axios.post("http://localhost:3000/signUp", obj);
+    const response = await axios.post("http://13.231.213.48:3000/signUp", obj);
     alert(`${response.data.msg}`);
     event.target.name.value = "";
     event.target.email.value = "";
