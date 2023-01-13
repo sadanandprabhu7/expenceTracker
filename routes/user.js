@@ -1,45 +1,42 @@
 const path = require("path");
-
 const express = require("express");
-
-const mainController = require("../controllers/expenceMain");
-
-const signUpcontroller = require("../controllers/user_con");
-const loginController = require("../controllers/login_con");
-
-const userAuthorization = require("../middleware/authorization");
-
 const router = express.Router();
+//const mainController = require("../controllers/expenceMain");
 
-router.post("/save", userAuthorization.authenticate, mainController.addDetails);
+const UserController = require("../controllers/user");
+//const loginController = require("../controllers/login_con");
 
-router.get(
-  "/showExpences",
-  userAuthorization.authenticate,
-  mainController.showDeails
-);
+//const userAuthorization = require("../middleware/authorization");
 
-router.delete(
-  "/:id",
-  userAuthorization.authenticate,
-  mainController.deleteDeails
-);
+// router.post("/save", userAuthorization.authenticate, mainController.addDetails);
 
-router.post("/signUp", signUpcontroller.signUp);
-router.post("/login", loginController.userLogin);
+// router.get(
+//   "/showExpences",
+//   userAuthorization.authenticate,
+//   mainController.showDeails
+// );
 
-// router.post("/findEmail", loginController.findEmail);
+// router.delete(
+//   "/:id",
+//   userAuthorization.authenticate,
+//   mainController.deleteDeails
+// );
 
-router.get(
-  "/download",
-  userAuthorization.authenticate,
-  mainController.downloadExpence
-);
+router.post("/signUp", UserController.signUp);
+router.post("/login", UserController.userLogin);
 
-router.get(
-  "/allDownload",
-  userAuthorization.authenticate,
-  mainController.allDownload
-);
+// // router.post("/findEmail", loginController.findEmail);
+
+// router.get(
+//   "/download",
+//   userAuthorization.authenticate,
+//   mainController.downloadExpence
+// );
+
+// router.get(
+//   "/allDownload",
+//   userAuthorization.authenticate,
+//   mainController.allDownload
+// );
 
 module.exports = router;

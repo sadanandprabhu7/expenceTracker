@@ -18,10 +18,10 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 
-// const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/user");
 // const purchaseRoutes = require("./routes/purchase");
 // const Order = require("./model/orders");
-// const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 // const User = require("./model/user_model");
 // const path = require("path");
 
@@ -37,9 +37,10 @@ const cors = require("cors");
 app.use(cors());
 //app.use(helmet());
 //app.use(morgan("combined", { stream: accessLogStream }));
-// app.use(bodyParser.json({ extended: false }));
+app.use(bodyParser.json({ extended: false }));
 
-// app.use("/user", userRoutes);
+app.use(userRoutes);
+//app.use("/user", userRoutes);
 
 // app.use("/purchase", purchaseRoutes);
 
@@ -54,7 +55,7 @@ app.use(cors());
 // });
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.nufu3hw.mongodb.net/?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@expensetracker.ccmowgf.mongodb.net/expenseTracker?retryWrites=true&w=majority`
   )
   .then((result) => {
     app.listen(process.env.PORT);
