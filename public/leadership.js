@@ -50,7 +50,7 @@ async function show(id) {
       let tr = `<tr><th>AMOUNT </th>
         <th>DESCRIPTION</th>
         <th>CATEGORY</th>
-    </tr> 
+    </tr>
         <tr><td>${expenceDetails[i].expence} </td>
   <td>${expenceDetails[i].description}</td>
   <td>${expenceDetails[i].category}</td>`;

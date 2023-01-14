@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 
 // env.config();
 
-const User = require("../model/user_model");
+const User = require("../model/user");
 const Forgotpassword = require("../model/forgotpassword");
 
 const forgotpassword = async (req, res) => {

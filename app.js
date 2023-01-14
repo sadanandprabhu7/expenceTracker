@@ -5,10 +5,7 @@ const Razorpay = require("razorpay");
 
 const app = express();
 
-// const Expence = require("./model/expenceMain");
-// const Urls = require("./model/url");
 // const routesAdmin = require("./routes/user");
-// const sequelize = require("./util/database");
 
 // const Forgotpassword = require("./model/forgotpassword");
 // const resetPasswordRoutes = require("./routes/resetpassword");
@@ -19,7 +16,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const userRoutes = require("./routes/user");
-// const purchaseRoutes = require("./routes/purchase");
+const purchaseRoutes = require("./routes/purchase");
 // const Order = require("./model/orders");
 const bodyParser = require("body-parser");
 // const User = require("./model/user_model");
@@ -40,9 +37,9 @@ app.use(cors());
 app.use(bodyParser.json({ extended: false }));
 
 app.use(userRoutes);
-//app.use("/user", userRoutes);
+app.use("/user", userRoutes);
 
-// app.use("/purchase", purchaseRoutes);
+app.use("/purchase", purchaseRoutes);
 
 // // step 5
 
