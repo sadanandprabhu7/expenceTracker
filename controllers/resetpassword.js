@@ -13,12 +13,18 @@ const forgotpassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ email: email });
     if (user) {
       const id = uuid.v4();
-      user.createForgotpassword({ id, active: true }).catch((err) => {
-        throw new Error(err);
+      const obj = new Forgotpassword({
+        id: id,
+        active: true,
+        userId: user,
       });
+      await obj.save();
+      // user.createForgotpassword({ id, active: true }).catch((err) => {
+      //   throw new Error(err);
+      // });
 
       res.json({
         id: id,
@@ -59,14 +65,17 @@ const forgotpassword = async (req, res) => {
   }
 };
 
-const resetpassword = (req, res) => {
+const resetpassword = async (req, res) => {
   const id = req.params.id;
 
-  Forgotpassword.findOne({ where: { id } }).then((forgotpasswordrequest) => {
-    if (forgotpasswordrequest) {
-      forgotpasswordrequest.update({ active: false });
+  await Forgotpassword.findOneAndUpdate({ id: id }, { active: false });
+  //.then((forgotpasswordrequest) => {
+  //   console.log(forgotpasswordrequest._id);
 
-      res.status(200).send(`<html>
+  //   if (forgotpasswordrequest) {
+  //     forgotpasswordrequest.update({ active: false });
+
+  res.status(200).send(`<html>
                                     <script>
                                         function formsubmitted(e){
                                             e.preventDefault();
@@ -79,51 +88,36 @@ const resetpassword = (req, res) => {
                                         <button>reset password</button>
                                     </form>
                                 </html>`);
-      res.end();
-    }
-  });
+  res.end();
+  //   }
+  // });
 };
 
-const updatepassword = (req, res) => {
+const updatepassword = async (req, res) => {
   try {
     const { newpassword } = req.query;
     const { resetpasswordid } = req.params;
-    Forgotpassword.findOne({ where: { id: resetpasswordid } }).then(
-      (resetpasswordrequest) => {
-        User.findOne({ where: { id: resetpasswordrequest.userId } }).then(
-          (user) => {
-            // console.log('userDetails', user)
-            if (user) {
-              //encrypt the password
-
-              const saltRounds = 10;
-              bcrypt.genSalt(saltRounds, function (err, salt) {
-                if (err) {
-                  console.log(err);
-                  throw new Error(err);
-                }
-                bcrypt.hash(newpassword, salt, function (err, hash) {
-                  // Store hash in your password DB.
-                  if (err) {
-                    console.log(err);
-                    throw new Error(err);
-                  }
-                  user.update({ password: hash }).then(() => {
-                    res
-                      .status(201)
-                      .json({ message: "Successfuly update the new password" });
-                  });
-                });
-              });
-            } else {
-              return res
-                .status(404)
-                .json({ error: "No user Exists", success: false });
-            }
+    const userData = await Forgotpassword.findOne({ id: resetpasswordid });
+    const user = await User.findOne({ id: userData.userId });
+    if (user) {
+      const saltRounds = 10;
+      bcrypt.genSalt(saltRounds, async function (err, salt) {
+        if (err) {
+          throw new Error(err);
+        }
+        bcrypt.hash(newpassword, salt, async function (err, hash) {
+          if (err) {
+            throw new Error(err);
           }
-        );
-      }
-    );
+          await user.updateOne({ password: hash });
+          res
+            .status(201)
+            .json({ message: "Successfully updated the new password" });
+        });
+      });
+    } else {
+      return res.status(404).json({ error: "No user Exists", success: false });
+    }
   } catch (error) {
     return res.status(403).json({ error, success: false });
   }

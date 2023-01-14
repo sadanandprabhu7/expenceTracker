@@ -7,8 +7,8 @@ const app = express();
 
 // const routesAdmin = require("./routes/user");
 
-// const Forgotpassword = require("./model/forgotpassword");
-// const resetPasswordRoutes = require("./routes/resetpassword");
+//const Forgotpassword = require("./model/forgotpassword");
+const resetPasswordRoutes = require("./routes/resetpassword");
 
 // const leaderShipRoutes = require("./routes/leadership");
 
@@ -43,7 +43,7 @@ app.use("/purchase", purchaseRoutes);
 
 // // step 5
 
-// app.use("/password", resetPasswordRoutes);
+app.use("/password", resetPasswordRoutes);
 
 // app.use(routesAdmin);
 // app.use(leaderShipRoutes);
