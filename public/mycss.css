@@ -3,6 +3,11 @@ body {
   margin-top: 0;
   padding: 0;
 }
+#category,
+#submitBtn {
+  width: 177px;
+  height: 21px;
+}
 #wrapper {
   width: 80%;
   border: 1px solid black;

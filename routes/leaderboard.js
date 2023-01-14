@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-const leaderShipCon = require("../controllers/leadership");
+const leaderShipCon = require("../controllers/leaderboard");
 const userAuthorization = require("../middleware/authorization");
 
 router.get(

@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 // env.config();
 
 const User = require("../model/user");
-const Forgotpassword = require("../model/forgotpassword");
+const Forgotpassword = require("../model/resetpassword");
 
 const forgotpassword = async (req, res) => {
   try {
@@ -66,16 +66,10 @@ const forgotpassword = async (req, res) => {
 };
 
 const resetpassword = async (req, res) => {
-  const id = req.params.id;
-
-  await Forgotpassword.findOneAndUpdate({ id: id }, { active: false });
-  //.then((forgotpasswordrequest) => {
-  //   console.log(forgotpasswordrequest._id);
-
-  //   if (forgotpasswordrequest) {
-  //     forgotpasswordrequest.update({ active: false });
-
-  res.status(200).send(`<html>
+  try {
+    const id = req.params.id;
+    await Forgotpassword.findOneAndUpdate({ id: id }, { active: false });
+    res.status(200).send(`<html>
                                     <script>
                                         function formsubmitted(e){
                                             e.preventDefault();
@@ -88,9 +82,10 @@ const resetpassword = async (req, res) => {
                                         <button>reset password</button>
                                     </form>
                                 </html>`);
-  res.end();
-  //   }
-  // });
+    res.end();
+  } catch (e) {
+    return res.status(403).json({ e, success: false });
+  }
 };
 
 const updatepassword = async (req, res) => {

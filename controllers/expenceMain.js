@@ -21,8 +21,16 @@ exports.addDetails = async (req, res, next) => {
   }
 };
 exports.showDeails = async (req, res) => {
-  const data = await req.user.populate("expense.expenses");
-  res.json({ data: data.expense.expenses });
+  const data = await req.user.populate(
+    "expense.expenses",
+    "ispremiumuser",
+    "name"
+  );
+  res.json({
+    data: data.expense.expenses,
+    ispre: data.ispremiumuser,
+    name: data.name,
+  });
 };
 
 // exports.showDeails = (req, res) => {

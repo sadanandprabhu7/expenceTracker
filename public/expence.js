@@ -66,16 +66,16 @@ window.addEventListener("DOMContentLoaded", async () => {
       }
     );
 
-    // document.getElementById("downloadFile").style.visibility = "hidden";
-    // document.getElementById("h1").innerHTML = ` ${res.data.name} `;
-    // if (res.data.ispre) {
-    //   allDownload();
-    //   expenceList(res.data);
-    showUsers(res.data.data);
-    //   document.body.style.backgroundColor = "#3399cc";
-    //   document.getElementById("rzp-button1").style.visibility = "hidden";
-    //   document.getElementById("downloadFile").style.visibility = "visible";
-    // }
+    document.getElementById("downloadFile").style.visibility = "hidden";
+    document.getElementById("h1").innerHTML = ` ${res.data.name} `;
+    if (res.data.ispre) {
+      //   allDownload();
+      //   expenceList(res.data);
+      showUsers(res.data.data);
+      document.body.style.backgroundColor = "#3399cc";
+      document.getElementById("rzp-button1").style.visibility = "hidden";
+      document.getElementById("downloadFile").style.visibility = "visible";
+    }
   } catch (e) {
     console.log(e + "somthing went wrong");
   }

@@ -20,16 +20,12 @@ async function getUserDetails() {
       headers: { Authorization: token },
     });
     const leadershipTable = document.getElementById("newTr");
-    const sortable = res.data.totalAmount.sort(function (a, b) {
-      return b.total_amount - a.total_amount;
+    const sortable = res.data.data.sort(function (a, b) {
+      return b.Total - a.Total;
     });
-    sortable.forEach((val) => {
-      res.data.data.forEach((user) => {
-        if (val.userId == user.id) {
-          const newTr = `<tr><td><button id="userbutton" onclick=show(${user.id}) >${user.name}</button></td><td>${val.total_amount}</td></tr>`;
-          leadershipTable.innerHTML += newTr;
-        }
-      });
+    sortable.forEach((user) => {
+      const newTr = `<tr><td><button id="userbutton" onclick=show('${user._id}') >${user.name}</button></td><td>${user.Total}</td></tr>`;
+      leadershipTable.innerHTML += newTr;
     });
   } catch (err) {
     console.log(err);
@@ -43,19 +39,18 @@ async function show(id) {
     const res = await axios.get(`http://localhost:3000/details/${id}`, {
       headers: { Authorization: token },
     });
-
     table.innerHTML = "";
     const expenceDetails = res.data.data;
-    for (let i = 0; i < expenceDetails.length; i++) {
+    expenceDetails.forEach((data) => {
       let tr = `<tr><th>AMOUNT </th>
         <th>DESCRIPTION</th>
         <th>CATEGORY</th>
     </tr>
-        <tr><td>${expenceDetails[i].expence} </td>
-  <td>${expenceDetails[i].description}</td>
-  <td>${expenceDetails[i].category}</td>`;
+        <tr><td>${data.expense} </td>
+  <td>${data.description}</td>
+  <td>${data.category}</td>`;
       table.innerHTML += tr;
-    }
+    });
   } catch (err) {
     console.log(err);
     alert("somthing went wrong");
