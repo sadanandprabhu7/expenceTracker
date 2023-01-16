@@ -6,32 +6,17 @@ env.config();
 exports.addDetails = async (req, res, next) => {
   try {
     const { expence, description, category } = req.body;
-    User.findById(req.user._id)
-      .then((user) => {
-        return req.user.addExpense(expence, description, category);
-      })
-      .then((result) => {
-        res.status(201).json({ msg: "successfully added" });
-      });
+    await req.user.expense.expenses.push({
+      expense: expence,
+      description: description,
+      category: category,
+    });
+    req.user.save();
+    res.status(201).json({ msg: "successfully added" });
   } catch (err) {
     res.json({ msg: "somthing went wrong" });
   }
 };
-// exports.showDeails = async (req, res) => {
-//   const data = await req.user.populate(
-//     "expense.expenses"
-//     // "ispremiumuser",
-//     // "name"
-//   );
-//   const countme = data.expense.expenses.length;
-//   console.log(countme);
-//   res.json({
-//     data: data.expense.expenses,
-//     ispre: data.ispremiumuser,
-//     name: data.name,
-//   });
-// };
-
 exports.showDeails = async (req, res) => {
   const page = +req.query.page || 1;
   const ITEMS_PER_PAGE = +req.header("limit") || 1;
@@ -88,7 +73,8 @@ exports.downloadExpence = async (req, res) => {
     const userId = req.user._id;
     const filename = `Expence${userId}/${new Date()}.txt`;
     const filrUrl = await uploadToS3(strigyfyExpences, filename);
-    // Urls.create({ url: filrUrl, userId: req.user.id });
+    await req.user.url.push({ urls: filrUrl });
+    req.user.save();
     res.status(200).json({ data: filrUrl, success: true });
   } catch (err) {
     res.json({ msg: "somthing went wrong" });

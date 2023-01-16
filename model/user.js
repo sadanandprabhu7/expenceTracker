@@ -18,7 +18,6 @@ const userSchema = new Schema({
   expense: {
     expenses: [
       {
-        id: { type: Schema.Types.ObjectId },
         expense: {
           type: Number,
           required: true,
@@ -50,25 +49,19 @@ const userSchema = new Schema({
       },
     },
   ],
+  url: [
+    {
+      urls: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   ispremiumuser: {
     type: Boolean,
     default: false,
   },
 });
-
-userSchema.methods.addExpense = function (expence, description, category) {
-  const oldExpense = [...this.expense.expenses];
-  oldExpense.push({
-    expense: expence,
-    description: description,
-    category: category,
-  });
-  const final = {
-    expenses: oldExpense,
-  };
-  this.expense = final;
-  return this.save();
-};
 
 userSchema.methods.deleteExpense = function (expenseId) {
   const updatedExpense = this.expense.expenses.filter((expense) => {

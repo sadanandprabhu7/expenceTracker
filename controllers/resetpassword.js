@@ -22,10 +22,6 @@ const forgotpassword = async (req, res) => {
         userId: user,
       });
       await obj.save();
-      // user.createForgotpassword({ id, active: true }).catch((err) => {
-      //   throw new Error(err);
-      // });
-
       res.json({
         id: id,
         html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
