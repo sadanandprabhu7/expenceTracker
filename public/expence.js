@@ -128,33 +128,33 @@ async function deleteU(delID) {
 function removeFromScreen(delID) {
   document.getElementById(delID).remove();
 }
-// async function download() {
-//   try {
-//     const token = localStorage.getItem("token");
-//     const data = await axios.get("http://localhost:3000/user/download", {
-//       headers: { Authorization: token },
-//     });
-//     const url = data.data.data;
-//     if (data.status === 200) {
-//       //client side
-//       // let a = document.createElement("a");
-//       // const blob = new Blob([url], { type: "text/plain" });
-//       // a.href = URL.createObjectURL(blob);
-//       // a.download = "myexpense.csv";
-//       // a.click();
-//       // server side
-//       var a = document.createElement("a");
-//       a.href = url;
-//       a.download = "myexpense.csv";
-//       a.click();
-//     } else {
-//       throw new Error(data.data.message);
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     alert("somthing went wrong");
-//   }
-// }
+async function download() {
+  try {
+    const token = localStorage.getItem("token");
+    const data = await axios.get("http://localhost:3000/user/download", {
+      headers: { Authorization: token },
+    });
+    const url = data.data.data;
+    if (data.status === 200) {
+      //client side
+      // let a = document.createElement("a");
+      // const blob = new Blob([url], { type: "text/plain" });
+      // a.href = URL.createObjectURL(blob);
+      // a.download = "myexpense.csv";
+      // a.click();
+      // server side
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "myexpense.csv";
+      a.click();
+    } else {
+      throw new Error(data.data.message);
+    }
+  } catch (err) {
+    console.log(err);
+    alert("somthing went wrong");
+  }
+}
 
 // async function allDownload() {
 //   try {

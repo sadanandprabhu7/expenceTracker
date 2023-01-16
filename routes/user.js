@@ -23,16 +23,16 @@ router.post(
 router.post("/signUp", UserController.signUp);
 router.post("/login", UserController.userLogin);
 
-// router.get(
-//   "/download",
-//   userAuthorization.authenticate,
-//   mainController.downloadExpence
-// );
+router.get(
+  "/download",
+  userAuthorization.authenticate,
+  mainController.downloadExpence
+);
 
-// router.get(
-//   "/allDownload",
-//   userAuthorization.authenticate,
-//   mainController.allDownload
-// );
+router.get(
+  "/allDownload",
+  userAuthorization.authenticate,
+  mainController.allDownload
+);
 
 module.exports = router;

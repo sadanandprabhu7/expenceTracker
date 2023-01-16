@@ -1,5 +1,5 @@
 const User = require("../model/user");
-// const AWS = require("aws-sdk");
+const AWS = require("aws-sdk");
 const env = require("dotenv");
 env.config();
 
@@ -81,53 +81,53 @@ exports.deleteDeails = (req, res, next) => {
 //     console.log(e);
 //   }
 // };
-// exports.downloadExpence = async (req, res) => {
-//   try {
-//     const expence = await req.user.getExpences();
-//     const strigyfyExpences = JSON.stringify(expence);
-//     const userId = req.user.id;
-//     const filename = `Expence${userId}/${new Date()}.txt`;
-//     const filrUrl = await uploadToS3(strigyfyExpences, filename);
-//     Urls.create({ url: filrUrl, userId: req.user.id });
-//     res.status(200).json({ data: filrUrl, success: true });
-//   } catch (err) {
-//     res.json({ msg: "somthing went wrong" });
-//   }
-// };
+exports.downloadExpence = async (req, res) => {
+  try {
+    const expence = await req.user.populate("expense.expenses");
+    const strigyfyExpences = JSON.stringify(expence.expense.expenses);
+    const userId = req.user._id;
+    const filename = `Expence${userId}/${new Date()}.txt`;
+    const filrUrl = await uploadToS3(strigyfyExpences, filename);
+    // Urls.create({ url: filrUrl, userId: req.user.id });
+    res.status(200).json({ data: filrUrl, success: true });
+  } catch (err) {
+    res.json({ msg: "somthing went wrong" });
+  }
+};
 
-// function uploadToS3(data, filename) {
-//   const BUCKET_NAME = process.env.BUCKET_NAME;
-//   const IAM_USER_KEY = process.env.IAM_USER_KEY;
-//   const IM_USER_SECRET = process.env.IM_USER_SECRET;
+function uploadToS3(data, filename) {
+  const BUCKET_NAME = process.env.BUCKET_NAME;
+  const IAM_USER_KEY = process.env.IAM_USER_KEY;
+  const IM_USER_SECRET = process.env.IM_USER_SECRET;
 
-//   let s3bucket = new AWS.S3({
-//     accessKeyId: IAM_USER_KEY,
-//     secretAccessKey: IM_USER_SECRET,
-//   });
+  let s3bucket = new AWS.S3({
+    accessKeyId: IAM_USER_KEY,
+    secretAccessKey: IM_USER_SECRET,
+  });
 
-//   let params = {
-//     Bucket: BUCKET_NAME,
-//     Key: filename,
-//     Body: data,
-//     ACL: "public-read",
-//   };
+  let params = {
+    Bucket: BUCKET_NAME,
+    Key: filename,
+    Body: data,
+    ACL: "public-read",
+  };
 
-//   return new Promise((resolve, reject) => {
-//     s3bucket.upload(params, (err, s3response) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(s3response.Location);
-//       }
-//     });
-//   });
-// }
+  return new Promise((resolve, reject) => {
+    s3bucket.upload(params, (err, s3response) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(s3response.Location);
+      }
+    });
+  });
+}
 
-// exports.allDownload = async (req, res, next) => {
-//   try {
-//     const urls = await req.user.getUrls();
-//     res.json({ data: urls });
-//   } catch (err) {
-//     res.json({ msg: "somthing went wrong" });
-//   }
-// };
+exports.allDownload = async (req, res, next) => {
+  try {
+    const urls = await req.user.getUrls();
+    res.json({ data: urls });
+  } catch (err) {
+    res.json({ msg: "somthing went wrong" });
+  }
+};
