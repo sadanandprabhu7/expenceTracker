@@ -1,9 +1,6 @@
 const User = require("../model/user");
-// const Urls = require("../model/url");
-// const User = require("../model/user_model");
 // const AWS = require("aws-sdk");
 const env = require("dotenv");
-const user = require("../model/user");
 env.config();
 
 exports.addDetails = async (req, res, next) => {
@@ -20,50 +17,47 @@ exports.addDetails = async (req, res, next) => {
     res.json({ msg: "somthing went wrong" });
   }
 };
+// exports.showDeails = async (req, res) => {
+//   const data = await req.user.populate(
+//     "expense.expenses"
+//     // "ispremiumuser",
+//     // "name"
+//   );
+//   const countme = data.expense.expenses.length;
+//   console.log(countme);
+//   res.json({
+//     data: data.expense.expenses,
+//     ispre: data.ispremiumuser,
+//     name: data.name,
+//   });
+// };
+
 exports.showDeails = async (req, res) => {
-  const data = await req.user.populate(
-    "expense.expenses",
-    "ispremiumuser",
-    "name"
+  const page = +req.query.page || 1;
+  const ITEMS_PER_PAGE = +req.header("limit") || 1;
+  let totalItems;
+  const data = await req.user.populate("expense.expenses");
+  totalItems = data.expense.expenses.length;
+  const newData = await User.find(
+    { _id: req.user._id },
+    {
+      "expense.expenses": {
+        $slice: [(page - 1) * ITEMS_PER_PAGE, ITEMS_PER_PAGE],
+      },
+    }
   );
   res.json({
-    data: data.expense.expenses,
-    ispre: data.ispremiumuser,
-    name: data.name,
+    expences: newData,
+    ispre: req.user.ispremiumuser,
+    name: req.user.name,
+    currentPage: page,
+    hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+    hasPriviousPage: page > 1,
+    nextPage: page + 1,
+    previosPage: page - 1,
+    lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
   });
 };
-
-// exports.showDeails = (req, res) => {
-//   const page = +req.query.page || 1;
-
-//   const ITEMS_PER_PAGE = +req.header("limit") || 4;
-//   //console.log(req.header("itemPage"));
-//   let totalItems;
-
-//   Expence.count({ where: { userId: req.user.id } })
-//     .then((total) => {
-//       totalItems = total;
-//       return req.user.getExpences({
-//         offset: (page - 1) * ITEMS_PER_PAGE,
-//         limit: ITEMS_PER_PAGE,
-//         userId: req.user.id,
-//       });
-//     })
-//     .then((expences) => {
-//       res.json({
-//         expences: expences,
-//         ispre: req.user.ispremiumuser,
-//         name: req.user.name,
-//         currentPage: page,
-//         hasNextPage: ITEMS_PER_PAGE * page < totalItems,
-//         hasPriviousPage: page > 1,
-//         nextPage: page + 1,
-//         previosPage: page - 1,
-//         lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
-//       });
-//     })
-//     .catch((err) => console.log(err));
-// };
 
 exports.deleteDeails = (req, res, next) => {
   const prodId = req.body.id;
@@ -78,6 +72,15 @@ exports.deleteDeails = (req, res, next) => {
     });
 };
 
+// exports.downloadExpence = async (req, res) => {
+//   try {
+//     const expence = await req.user.populate("expense.expenses");
+//     const data = JSON.stringify(expence);
+//     res.status(200).json({ data: data });
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 // exports.downloadExpence = async (req, res) => {
 //   try {
 //     const expence = await req.user.getExpences();

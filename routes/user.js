@@ -1,7 +1,7 @@
 const path = require("path");
 const express = require("express");
 const router = express.Router();
-const mainController = require("../controllers/expenceMain");
+const mainController = require("../controllers/expense");
 
 const UserController = require("../controllers/user");
 const userAuthorization = require("../middleware/authorization");
