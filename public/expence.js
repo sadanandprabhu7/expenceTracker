@@ -65,11 +65,10 @@ window.addEventListener("DOMContentLoaded", async () => {
         headers: { Authorization: token },
       }
     );
-    console.log("dom", res.data);
     document.getElementById("downloadFile").style.visibility = "hidden";
     document.getElementById("h1").innerHTML = ` ${res.data.name} `;
     if (res.data.ispre) {
-      //   allDownload();
+      allDownload();
       // expenceList(res.data);
       // showUsers(res.data.expences);
       document.body.style.backgroundColor = "#3399cc";
@@ -156,22 +155,22 @@ async function download() {
   }
 }
 
-// async function allDownload() {
-//   try {
-//     const token = localStorage.getItem("token");
-//     const data = await axios.get("http://localhost:3000/user/allDownload", {
-//       headers: { Authorization: token },
-//     });
-//     const pli = document.getElementById("download");
-//     data.data.data.forEach((url) => {
-//       const li = `<li><a href=${url.url}>${url.createdAt}</a></li>`;
-//       pli.innerHTML += li;
-//     });
-//   } catch (err) {
-//     console.log(err);
-//     alert("somthing went wrong");
-//   }
-// }
+async function allDownload() {
+  try {
+    const token = localStorage.getItem("token");
+    const data = await axios.get("http://localhost:3000/user/allDownload", {
+      headers: { Authorization: token },
+    });
+    const pli = document.getElementById("download");
+    data.data.data.forEach((url) => {
+      const li = `<li><a href=${url.urls}>${url.createdAt}</a></li>`;
+      pli.innerHTML += li;
+    });
+  } catch (err) {
+    console.log(err);
+    alert("somthing went wrong");
+  }
+}
 
 function expenceList({
   currentPage,

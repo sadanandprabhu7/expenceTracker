@@ -19,6 +19,7 @@ const forgotpassword = async (req, res) => {
       const obj = new Forgotpassword({
         id: id,
         active: true,
+        expiresby: new Date(),
         userId: user,
       });
       await obj.save();

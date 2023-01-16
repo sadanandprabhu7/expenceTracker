@@ -57,15 +57,6 @@ exports.deleteDeails = (req, res, next) => {
     });
 };
 
-// exports.downloadExpence = async (req, res) => {
-//   try {
-//     const expence = await req.user.populate("expense.expenses");
-//     const data = JSON.stringify(expence);
-//     res.status(200).json({ data: data });
-//   } catch (e) {
-//     console.log(e);
-//   }
-// };
 exports.downloadExpence = async (req, res) => {
   try {
     const expence = await req.user.populate("expense.expenses");
@@ -73,7 +64,8 @@ exports.downloadExpence = async (req, res) => {
     const userId = req.user._id;
     const filename = `Expence${userId}/${new Date()}.txt`;
     const filrUrl = await uploadToS3(strigyfyExpences, filename);
-    await req.user.url.push({ urls: filrUrl });
+
+    await req.user.url.push({ urls: filrUrl, createdAt: new Date() });
     req.user.save();
     res.status(200).json({ data: filrUrl, success: true });
   } catch (err) {
@@ -111,8 +103,8 @@ function uploadToS3(data, filename) {
 
 exports.allDownload = async (req, res, next) => {
   try {
-    const urls = await req.user.getUrls();
-    res.json({ data: urls });
+    const result = await req.user.populate("url.urls");
+    res.json({ data: result.url });
   } catch (err) {
     res.json({ msg: "somthing went wrong" });
   }
